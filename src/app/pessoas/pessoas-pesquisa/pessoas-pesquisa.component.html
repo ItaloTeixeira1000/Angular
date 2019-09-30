@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="ui-g">
+
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+
+      <div class="ui-g-12">
+        <h1>Pessoas</h1>
+      </div>
+
+      <div class="ui-g-12 ui-fluid">
+        <label>Nome</label>
+        <input pInputText type="text" name="nome" [(ngModel)]="filtro.nome">
+      </div>
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Pesquisar"></button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-table [columns]="pessoas" [value]="pessoas" [responsive]="true" [resizableColumns]="true" [paginator]="true"
+       [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="aoMudarPagina($event)"
+        #tabela >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nome</th>
+            <th>Cidade</th>
+            <th>Estado</th>
+            <th>Status</th>
+            <th style="width: 100px;"></th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-pessoas>
+          <tr>
+            <td>{{pessoas.nome}}</td>
+
+            <td *ngIf="pessoas.endereco.cidade !== null || pessoas.endereco !== null ">{{pessoas.endereco.cidade}}</td>
+            <td *ngIf="pessoas.endereco.cidade === null "></td>
+
+            <td *ngIf='pessoas.endereco.estado !== null'>{{pessoas.endereco.estado}}</td>
+            <td *ngIf='pessoas.endereco.estado === null'></td>
+
+            <td>
+              <a href="#" *ngIf="pessoas.ativo" pTooltip="Desativar" tooltipPosition="top"
+                class="categoriaA" (click)="mudarStatus(pessoas)">Ativo</a>
+              <a href="#" *ngIf="!pessoas.ativo" pTooltip="Ativar" tooltipPosition="top"
+                class="categoriaA" (click)="mudarStatus(pessoas)">Inativo</a>
+            </td>
+
+            <td class="col-acoes">
+              <a pButton pTooltip="Editar" tooltipPosition="top" style="height: 1.5em; color: white;"><i
+                  class="pi pi-pencil"></i></a>
+              <a pButton pTooltip="Excluir" tooltipPosition="top"
+                style="height: 1.5em; margin-left: 4px; color:white;" (click)="confirmarExclusao(pessoas)"><i class="pi pi-trash"></i></a>
+
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
+
+    <div class="ui-g-12">
+      <a pButton label="Nova Pessoa"></a>
+    </div>
+  </div>
+
+</div>
