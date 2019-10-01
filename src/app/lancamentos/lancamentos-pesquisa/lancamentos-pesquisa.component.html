@@ -69,7 +69,8 @@
 
             </td>
             <td style=" text-align: center;">
-              <a pButton pTooltip="Editar" tooltipPosition="top" style="height: 1.5em; color: white;"><i
+              <a pButton pTooltip="Editar" tooltipPosition="top" style="height: 1.5em; color: white;"
+                [routerLink]="['/lancamentos', lancamentos.codigo]"><i
                   class="pi pi-pencil"></i></a>
               <a pButton pTooltip="Excluir" tooltipPosition="top"
                 style="height: 1.5em; margin-left: 4px; color:white;" (click)="confirmarExclusao(lancamentos)"><i class="pi pi-trash"></i></a>
@@ -90,7 +91,7 @@
     </div>
 
     <div class="ui-g-12">
-      <a pButton label="Novo Lançamento"></a>
+      <a pButton label="Novo Lançamento" routerLink="/lancamentos/novo"></a>
     </div>
 
   </div>
