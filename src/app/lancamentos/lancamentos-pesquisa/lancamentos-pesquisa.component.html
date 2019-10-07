@@ -1,7 +1,7 @@
 <div class="container">
   <div class="ui-g">
 
-    <form autocomplete="off" (ngSubmit)="pesquisar()">
+    <form autocomplete="off" (ngSubmit)="pesquisar(f)">
 
       <div class="ui-g-12">
         <h1>Lançamentos</h1>
@@ -23,9 +23,38 @@
           name="vencimentoFim" [(ngModel)]="filtro.dataVencimentoFim"></p-calendar>
       </div>
 
-      <div class="ui-g-12">
+      <div class="ui-g-2">
         <button pButton type="submit" label="Pesquisar"></button>
       </div>
+      <div class="ui-g-2">
+        <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Mais filtros"></button>
+      </div>
+
+      <p-dialog [(visible)]="display" [style]="{width: '900px', height: '800px'}">
+        <p-header>
+          Filtro
+        </p-header>
+        <div class="ui-g-6 ui-fluid">
+          <label>Pessoa</label>
+          <input pInputText type="text" name="cidade" [(ngModel)]="pessoa">
+        </div>
+        <div class="ui-g-6 ui-fluid">
+          <label>Pagamento</label>
+          <p-calendar dateFormat="dd/mm/yy" [inputStyle]="{ width: '95px' }"
+          name="dataPagamento" [(ngModel)]="dataPagamento"></p-calendar>
+         
+        </div>
+        <div class="ui-g-6 ui-fluid">
+          <label>Valor</label>
+          <input pInputText type="text" name="valor" placeholder="0,00"
+          currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: false }"
+          [(ngModel)] = "valor" >
+        </div>
+        <p-footer>
+          <button pButton type="button" label="Ok" (click) = "hiddenDialog()"></button>
+          <button pButton type="button" label="Fechar" (click)="hiddenDialog()"></button>
+        </p-footer>
+      </p-dialog>
 
     </form>
   </div>

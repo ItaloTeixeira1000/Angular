@@ -12,26 +12,31 @@ import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.compo
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TooltipModule } from 'primeng/components/tooltip/tooltip';
+import { RouterModule } from '@angular/router';
+import { PessoasRoutingModule } from '../lancamentos/pessoa-routing.module';
+import {DialogModule} from 'primeng/dialog';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     InputTextModule,
     ButtonModule,
     TableModule,
     TooltipModule,
     InputMaskModule,
+    DialogModule,
+    RadioButtonModule,
 
-    SharedModule
+    SharedModule,
+    PessoasRoutingModule
   ],
   declarations: [
     PessoaCadastroComponent,
     PessoasPesquisaComponent
   ],
-  exports: [
-    PessoaCadastroComponent,
-    PessoasPesquisaComponent
-  ]
+  exports: []
 })
 export class PessoasModule { }

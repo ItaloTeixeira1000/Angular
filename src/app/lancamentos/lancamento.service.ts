@@ -20,7 +20,7 @@ export class LancamentoService {
 
   constructor(private http: HttpClient) { }
 
-  pesquisar(filtro: LancamentoFiltro): Promise<any> {
+  pesquisar(filtro: LancamentoFiltro, pessoa:string, valor:number, dataPagamento:Date): Promise<any> {
     let params = new HttpParams();
     const headers = new HttpHeaders({
       Authorization:
@@ -46,6 +46,20 @@ export class LancamentoService {
       params = params.set('dataVencimentoAte',
         moment(filtro.dataVencimentoFim).format('YYYY-MM-DD'));
     }
+
+    if (pessoa) {
+      params = params.set('pessoa', pessoa);
+    }
+
+    if (valor) {
+      params = params.set('valor', valor.toString());
+    }
+
+    if (dataPagamento) {
+      params = params.set('dataPagamento',
+        moment(dataPagamento).format('YYYY-MM-DD'));
+    }
+  
 
     return this.http.get(`${this.lancamentosUrl}?resumo`,
         { headers, params })

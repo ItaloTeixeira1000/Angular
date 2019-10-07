@@ -16,13 +16,13 @@ import { TableModule } from 'primeng/table';
 import { SharedModule } from './../shared/shared.module';
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-cadastro.component';
-import { RouterModule } from '@angular/router';
+import { LancamentosRoutingModule } from './lancamento-routing.module';
+import {DialogModule} from 'primeng/dialog';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
 
     TableModule,
     InputTextModule,
@@ -34,16 +34,15 @@ import { RouterModule } from '@angular/router';
     SelectButtonModule,
     DropdownModule,
     CurrencyMaskModule,
+    DialogModule,
 
-    SharedModule
+    SharedModule,
+    LancamentosRoutingModule
   ],
   declarations: [
     LancamentoCadastroComponent,
     LancamentosPesquisaComponent
   ],
-  exports: [
-    LancamentoCadastroComponent,
-    LancamentosPesquisaComponent
-  ]
+  exports: []
 })
 export class LancamentosModule { }

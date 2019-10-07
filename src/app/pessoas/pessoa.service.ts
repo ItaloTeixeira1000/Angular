@@ -17,7 +17,7 @@ export class PessoaService {
 
   constructor(private http: HttpClient) { }
 
-  pesquisar(filtro: PessoaFiltro): Promise<any> {
+  pesquisar(filtro: PessoaFiltro, cidade: string, estado: string, ativo: string): Promise<any> {
     let params = new HttpParams();
     const headers = new HttpHeaders({
       Authorization:
@@ -32,6 +32,17 @@ export class PessoaService {
       params = params.set('nome', filtro.nome);
     }
 
+    if (cidade) {
+      params = params.set('cidade', cidade);
+    }
+
+    if (estado) {
+      params = params.set('estado', estado);
+    }
+
+    if (ativo) {
+      params = params.set('ativo', ativo);
+    }
     return this.http.get(`${this.pessoasUrl}`, { headers,params })
       .toPromise()
       .then(response => {
@@ -93,6 +104,31 @@ export class PessoaService {
     return this.http.post(this.pessoasUrl, JSON.stringify(pessoa), { headers })
       .toPromise()
       .then(response => JSON.parse(JSON.stringify(response)))
+  }
+
+  buscarPorCodigo(codigo: number): Promise<Pessoa>{
+    const headers = new HttpHeaders({
+      Authorization:
+        // tslint:disable-next-line: max-line-length
+        'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
+        'Content-Type': 'application/json'
+    });
+   return this.http.get(`${this.pessoasUrl}/${codigo}`, { headers })
+      .toPromise()
+      .then(response => JSON.parse(JSON.stringify(response)))
+  }
+
+  atualizar(pessoa: Pessoa): Promise<Pessoa> {
+    const headers = new HttpHeaders({
+      Authorization:
+        // tslint:disable-next-line: max-line-length
+        'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
+        'Content-Type': 'application/json'
+    });
+
+    return this.http.put(`${this.pessoasUrl}/${pessoa.codigo}`, JSON.stringify(pessoa), { headers })
+      .toPromise()
+      .then(pessoaSalva => JSON.parse(JSON.stringify(pessoaSalva)))
   }
 
 }

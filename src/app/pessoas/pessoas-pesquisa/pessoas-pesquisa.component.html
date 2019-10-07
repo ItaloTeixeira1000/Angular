@@ -12,9 +12,38 @@
         <input pInputText type="text" name="nome" [(ngModel)]="filtro.nome">
       </div>
 
-      <div class="ui-g-12">
+      <div class="ui-g-3">
         <button pButton type="submit" label="Pesquisar"></button>
       </div>
+      <div class="ui-g-3">
+        <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Mais filtros"></button>
+      </div>
+
+      <p-dialog [(visible)]="display" [style]="{width: '500px', height: '500px'}">
+        <p-header>
+          Filtro
+        </p-header>
+        <div class="ui-g-6 ui-fluid">
+          <label>Cidade</label>
+          <input pInputText type="text" name="cidade" [(ngModel)]="cidade">
+        </div>
+        <div class="ui-g-6 ui-fluid">
+          <label>Estado</label>
+          <input pInputText type="text" name="estado" [(ngModel)]="estado">
+        </div>
+        <div class="ui-g-6 ui-fluid">
+   
+          <p-radioButton name="status" value="true" [(ngModel)]="ativo" label="Ativo"></p-radioButton> <br>
+          <p-radioButton name="status" value="false" [(ngModel)]="ativo" label="Inativo"></p-radioButton>
+          
+        </div>
+        <p-footer>
+          <button pButton type="button" label="Ok" (click)="hiddenDialog()"></button>
+          <button pButton type="button" label="Fechar" (click)="hiddenDialog()"></button>
+        </p-footer>
+      </p-dialog>
+
+
 
     </form>
 
@@ -23,8 +52,8 @@
   <div class="ui-g">
     <div class="ui-g-12">
       <p-table [columns]="pessoas" [value]="pessoas" [responsive]="true" [resizableColumns]="true" [paginator]="true"
-       [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="aoMudarPagina($event)"
-        #tabela >
+        [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros"
+        (onLazyLoad)="aoMudarPagina($event)" #tabela>
         <ng-template pTemplate="header">
           <tr>
             <th>Nome</th>
@@ -46,17 +75,17 @@
             <td *ngIf='pessoas.endereco.estado === null'></td>
 
             <td>
-              <a href="#" *ngIf="pessoas.ativo" pTooltip="Desativar" tooltipPosition="top"
-                class="categoriaA" (click)="mudarStatus(pessoas)">Ativo</a>
-              <a href="#" *ngIf="!pessoas.ativo" pTooltip="Ativar" tooltipPosition="top"
-                class="categoriaA" (click)="mudarStatus(pessoas)">Inativo</a>
+              <a *ngIf="pessoas.ativo" pTooltip="Desativar" tooltipPosition="top" class="categoriaA"
+                (click)="mudarStatus(pessoas)">Ativo</a>
+              <a *ngIf="!pessoas.ativo" pTooltip="Ativar" tooltipPosition="top" class="categoriaA"
+                (click)="mudarStatus(pessoas)">Inativo</a>
             </td>
 
             <td class="col-acoes">
-              <a pButton pTooltip="Editar" tooltipPosition="top" style="height: 1.5em; color: white;"><i
-                  class="pi pi-pencil"></i></a>
-              <a pButton pTooltip="Excluir" tooltipPosition="top"
-                style="height: 1.5em; margin-left: 4px; color:white;" (click)="confirmarExclusao(pessoas)"><i class="pi pi-trash"></i></a>
+              <a pButton pTooltip="Editar" tooltipPosition="top" style="height: 1.5em; color: white;"
+                [routerLink]="['/pessoas', pessoas.codigo]"><i class="pi pi-pencil"></i></a>
+              <a pButton pTooltip="Excluir" tooltipPosition="top" style="height: 1.5em; margin-left: 4px; color:white;"
+                (click)="confirmarExclusao(pessoas)"><i class="pi pi-trash"></i></a>
 
             </td>
           </tr>
@@ -66,7 +95,7 @@
     </div>
 
     <div class="ui-g-12">
-      <a pButton label="Nova Pessoa"></a>
+      <a pButton label="Nova Pessoa" routerLink="/pessoas/nova"></a>
     </div>
   </div>
 
