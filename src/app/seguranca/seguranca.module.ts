@@ -5,6 +5,7 @@ import { InputTextModule } from 'primeng/components/inputtext/inputtext';
 import { FormsModule } from '@angular/forms';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { ButtonModule } from 'primeng/components/button/button';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -15,7 +16,8 @@ import { ButtonModule } from 'primeng/components/button/button';
     SegurancaRoutingModule,
     InputTextModule,
     FormsModule,
-    ButtonModule
+    ButtonModule,
+    HttpClientModule
   ],
   exports: [
     

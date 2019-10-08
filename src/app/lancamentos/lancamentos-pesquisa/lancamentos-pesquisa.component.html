@@ -9,50 +9,49 @@
 
       <div class="ui-g-12 ui-fluid">
         <label>Descrição</label>
-        <input pInputText type="text" name="descricao"
-          [(ngModel)]="filtro.descricao">
+        <input pInputText type="text" name="descricao" [(ngModel)]="filtro.descricao">
       </div>
 
       <div class="ui-g-12">
         <label style="display: block">Vencimento</label>
-        <p-calendar dateFormat="dd/mm/yy" [inputStyle]="{ width: '95px' }"
-          name="vencimentoInicio" [(ngModel)]="filtro.dataVencimentoInicio"></p-calendar>
+        <p-calendar dateFormat="dd/mm/yy" [inputStyle]="{ width: '95px' }" name="vencimentoInicio"
+          [(ngModel)]="filtro.dataVencimentoInicio"></p-calendar>
 
         <label>até</label>
-        <p-calendar dateFormat="dd/mm/yy" [inputStyle]="{ width: '95px' }"
-          name="vencimentoFim" [(ngModel)]="filtro.dataVencimentoFim"></p-calendar>
+        <p-calendar dateFormat="dd/mm/yy" [inputStyle]="{ width: '95px' }" name="vencimentoFim"
+          [(ngModel)]="filtro.dataVencimentoFim"></p-calendar>
       </div>
 
-      <div class="ui-g-2">
+      <div class="ui-g-2 ui-sm-4 ui-md-3 ui-lg-2 ">
         <button pButton type="submit" label="Pesquisar"></button>
       </div>
-      <div class="ui-g-2">
+      <div class="ui-g-2 ui-sm-4 ui-md-3 ui-lg-2 ">
         <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Mais filtros"></button>
       </div>
 
-      <p-dialog [(visible)]="display" [style]="{width: '900px', height: '800px'}">
+      <p-dialog [(visible)]="display" [responsive]='true' [resizable]="true" >
         <p-header>
           Filtro
         </p-header>
         <div class="ui-g-6 ui-fluid">
           <label>Pessoa</label>
-          <input pInputText type="text" name="cidade" [(ngModel)]="pessoa">
+          <input pInputText type="text" name="pessoa" [(ngModel)]="pessoa">
         </div>
         <div class="ui-g-6 ui-fluid">
           <label>Pagamento</label>
-          <p-calendar dateFormat="dd/mm/yy" [inputStyle]="{ width: '95px' }"
-          name="dataPagamento" [(ngModel)]="dataPagamento"></p-calendar>
-         
+          <p-calendar dateFormat="dd/mm/yy" [inputStyle]="{ width: '100%' }" name="dataPagamento"
+            [(ngModel)]="dataPagamento" appendTo="body"></p-calendar>
+
         </div>
         <div class="ui-g-6 ui-fluid">
           <label>Valor</label>
-          <input pInputText type="text" name="valor" placeholder="0,00"
-          currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: false }"
-          [(ngModel)] = "valor" >
+          <input pInputText type="text" name="valor" placeholder="0,00" currencyMask
+            [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: false }" [(ngModel)]="valor">
         </div>
         <p-footer>
-          <button pButton type="button" label="Ok" (click) = "hiddenDialog()"></button>
-          <button pButton type="button" label="Fechar" (click)="hiddenDialog()"></button>
+          <button pButton type="button" label="Ok" (click)="hiddenDialog()"></button>
+          <button pButton type="button" label="Limpar Tudo" (click)="limparTudo()"></button>
+          <button pButton type="button" label="Cancelar" (click)="cancelar()"></button>
         </p-footer>
       </p-dialog>
 
@@ -61,10 +60,9 @@
 
   <div class="ui-g">
     <div class="ui-g-12">
-      <p-table [columns]="lancamentos" [value]="lancamentos" [responsive]="true" [resizableColumns]="true" emptymessage="Nenhum lançamento encontrado"
-        [paginator]="true" [rows]="filtro.itensPorPagina"
-        [lazy]="true" [totalRecords]="totalRegistros"
-        (onLazyLoad)="aoMudarPagina($event)" #tabela>
+      <p-table [columns]="lancamentos" [value]="lancamentos" [responsive]="true" [resizableColumns]="true"
+        emptymessage="Nenhum lançamento encontrado" [paginator]="true" [rows]="filtro.itensPorPagina" [lazy]="true"
+        [totalRecords]="totalRegistros" (onLazyLoad)="aoMudarPagina($event)" #tabela>
         <ng-template pTemplate="header">
           <tr>
             <th>Pessoa</th>
@@ -99,10 +97,9 @@
             </td>
             <td style=" text-align: center;">
               <a pButton pTooltip="Editar" tooltipPosition="top" style="height: 1.5em; color: white;"
-                [routerLink]="['/lancamentos', lancamentos.codigo]"><i
-                  class="pi pi-pencil"></i></a>
-              <a pButton pTooltip="Excluir" tooltipPosition="top"
-                style="height: 1.5em; margin-left: 4px; color:white;" (click)="confirmarExclusao(lancamentos)"><i class="pi pi-trash"></i></a>
+                [routerLink]="['/lancamentos', lancamentos.codigo]"><i class="pi pi-pencil"></i></a>
+              <a pButton pTooltip="Excluir" tooltipPosition="top" style="height: 1.5em; margin-left: 4px; color:white;"
+                (click)="confirmarExclusao(lancamentos)"><i class="pi pi-trash"></i></a>
             </td>
 
           </tr>
@@ -110,11 +107,11 @@
 
         <ng-template pTemplate="emptymessage" let-columns>
           <tr>
-              <td [attr.colspan]="6" style="text-align: center;">
-                  Nenhum lançamento foi encontrado.
-              </td>
+            <td [attr.colspan]="6" style="text-align: center;">
+              Nenhum lançamento foi encontrado.
+            </td>
           </tr>
-      </ng-template>
+        </ng-template>
       </p-table>
 
     </div>

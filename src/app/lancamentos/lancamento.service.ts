@@ -17,19 +17,17 @@ export class LancamentoFiltro {
 export class LancamentoService {
 
   lancamentosUrl = 'http://localhost:8080/lancamentos';
+  headers = new HttpHeaders({
+    Authorization:
+      // tslint:disable-next-line: max-line-length
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbkBhbGdhbW9uZXkuY29tIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIiwicHV0Il0sIm5vbWUiOiJBZG1pbmlzdHJhZG9yIiwiZXhwIjoxNTcwNTU0MjQyLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSIsIlJPTEVfQVRVQUxJWkFSX1BFU1NPQSJdLCJqdGkiOiI0YmVhODdiYy1iYzI2LTQxNDktOThiMC04MGYxNDZiMjQwMTciLCJjbGllbnRfaWQiOiJhbmd1bGFyIn0.X5j09T802A2BNiv277z7v0qWhR9tLYHIAub19NxFVqY',
+    'Content-Type': 'application/json'
+  });
 
   constructor(private http: HttpClient) { }
 
-  pesquisar(filtro: LancamentoFiltro, pessoa:string, valor:number, dataPagamento:Date): Promise<any> {
+  pesquisar(filtro: LancamentoFiltro, pessoa: string, valor: number, dataPagamento: Date): Promise<any> {
     let params = new HttpParams();
-    const headers = new HttpHeaders({
-      Authorization:
-        // tslint:disable-next-line: max-line-length
-        'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    });
-
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-
     params = params.set('page', filtro.pagina.toString());
     params = params.set('size', filtro.itensPorPagina.toString());
 
@@ -59,13 +57,13 @@ export class LancamentoService {
       params = params.set('dataPagamento',
         moment(dataPagamento).format('YYYY-MM-DD'));
     }
-  
+
 
     return this.http.get(`${this.lancamentosUrl}?resumo`,
-        { headers, params })
+      { headers: this.headers, params })
       .toPromise()
       .then(response => {
-        const responseJson = JSON.parse(JSON.stringify(response));;
+        const responseJson = JSON.parse(JSON.stringify(response));
         const lancamentos = responseJson.content;
 
         const resultado = {
@@ -78,41 +76,24 @@ export class LancamentoService {
   }
 
   excluir(codigo: number): Promise<void> {
-    const headers = new HttpHeaders({
-      Authorization:
-        // tslint:disable-next-line: max-line-length
-        'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    });
-    
-    return this.http.delete(`${this.lancamentosUrl}/${codigo}`, { headers })
+
+    return this.http.delete(`${this.lancamentosUrl}/${codigo}`, { headers: this.headers })
       .toPromise()
       .then(() => null);
   }
 
-  adicionar(lancamento: Lancamento): Promise<Lancamento>{
-    const headers = new HttpHeaders({
-      Authorization:
-        // tslint:disable-next-line: max-line-length
-        'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
-        'Content-Type': 'application/json'
-    });
+  adicionar(lancamento: Lancamento): Promise<Lancamento> {
 
     return this.http.post(this.lancamentosUrl,
-      JSON.stringify(lancamento), { headers })
+      JSON.stringify(lancamento), { headers: this.headers })
       .toPromise()
       .then(response => JSON.parse(JSON.stringify(response)));
   }
 
   atualizar(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new HttpHeaders({
-      Authorization:
-        // tslint:disable-next-line: max-line-length
-        'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
-        'Content-Type': 'application/json'
-    });
 
     return this.http.put(`${this.lancamentosUrl}/${lancamento.codigo}`,
-        JSON.stringify(lancamento), { headers })
+      JSON.stringify(lancamento), { headers: this.headers })
       .toPromise()
       .then(response => {
         const lancamentoAlterado = JSON.parse(JSON.stringify(response)) as Lancamento;
@@ -124,12 +105,7 @@ export class LancamentoService {
   }
 
   buscarPorCodigo(codigo: number): Promise<Lancamento> {
-    const headers = new HttpHeaders({
-      Authorization:
-        // tslint:disable-next-line: max-line-length
-        'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    });
-    return this.http.get(`${this.lancamentosUrl}/${codigo}`, { headers })
+    return this.http.get(`${this.lancamentosUrl}/${codigo}`, { headers: this.headers })
       .toPromise()
       .then(response => {
         const lancamento = JSON.parse(JSON.stringify(response)) as Lancamento;

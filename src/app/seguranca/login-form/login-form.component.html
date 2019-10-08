@@ -1,17 +1,17 @@
 <div class="container">
 
     <div class="ui-g">
-        <form #f="ngForm"  style="text-align: center; margin-left: auto; margin-right: auto; padding-left: auto; padding-right: auto">
+        <form #f="ngForm" (ngSubmit) = "login(email.value, senha.value)"  style="text-align: center; margin-left: auto; margin-right: auto; padding-left: auto; padding-right: auto">
             <div class="ui-g-12" >
                 <h1>Login</h1>
             </div>
 
             <div class="ui-g-12">
-                <input pInputText ngModel type="text" name="email" placeholder="E-mail" style="width: 100%" required>
+                <input pInputText ngModel type="text" #email name="email" placeholder="E-mail" style="width: 100%" required>
             </div>
 
             <div class="ui-g-12">
-                <input pInputText ngModel name="senha" type="text" placeholder="Senha" style="width: 100%" required>
+                <input pInputText ngModel name="senha" #senha type="password" placeholder="Senha" style="width: 100%" required>
             </div>
 
             <div class="ui-g-12">

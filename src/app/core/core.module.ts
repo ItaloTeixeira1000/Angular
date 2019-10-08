@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ConfirmationService } from 'primeng/components/common/api';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
 import { ToastyModule } from 'ng2-toasty';
+import { JwtHelper } from 'angular2-jwt'
 
 import { ErrorHandlerService } from './error-handler.service';
 import { PessoaService } from './../pessoas/pessoa.service';
@@ -12,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from '../seguranca/auth.service';
 
 @NgModule({
   imports: [
@@ -32,6 +34,8 @@ import { Title } from '@angular/platform-browser';
     PessoaService,
     ErrorHandlerService,
     Title,
+    AuthService,
+    JwtHelper,
 
     ConfirmationService,
     { provide: LOCALE_ID, useValue: 'pt-BR' }

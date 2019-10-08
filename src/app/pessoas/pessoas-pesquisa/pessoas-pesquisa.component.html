@@ -12,14 +12,14 @@
         <input pInputText type="text" name="nome" [(ngModel)]="filtro.nome">
       </div>
 
-      <div class="ui-g-3">
+      <div class="ui-g-2 ui-sm-4 ui-md-3 ui-lg-2 ">
         <button pButton type="submit" label="Pesquisar"></button>
       </div>
-      <div class="ui-g-3">
+      <div  class="ui-g-2 ui-sm-4 ui-md-3 ui-lg-2 ">
         <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Mais filtros"></button>
       </div>
 
-      <p-dialog [(visible)]="display" [style]="{width: '500px', height: '500px'}">
+      <p-dialog [(visible)]="display" [responsive]="true">
         <p-header>
           Filtro
         </p-header>
@@ -32,14 +32,15 @@
           <input pInputText type="text" name="estado" [(ngModel)]="estado">
         </div>
         <div class="ui-g-6 ui-fluid">
-   
+
           <p-radioButton name="status" value="true" [(ngModel)]="ativo" label="Ativo"></p-radioButton> <br>
           <p-radioButton name="status" value="false" [(ngModel)]="ativo" label="Inativo"></p-radioButton>
-          
+
         </div>
         <p-footer>
           <button pButton type="button" label="Ok" (click)="hiddenDialog()"></button>
-          <button pButton type="button" label="Fechar" (click)="hiddenDialog()"></button>
+          <button pButton type="button" label="Limpar Tudo" (click)="limparTudo()"></button>
+          <button pButton type="button" label="Cancelar" (click)="cancelar()"></button>
         </p-footer>
       </p-dialog>
 

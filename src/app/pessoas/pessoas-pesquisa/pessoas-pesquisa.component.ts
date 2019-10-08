@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, AfterContentChecked } from '@angular/core';
 
 import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
 import { ToastyService } from 'ng2-toasty';
@@ -18,7 +18,7 @@ export class PessoasPesquisaComponent implements OnInit {
   filtro = new PessoaFiltro();
   pessoas = [];
   display: boolean = false;
- 
+
   @ViewChild('tabela', { static: false }) grid;
   @Input() cidade;
   @Input() estado;
@@ -43,16 +43,26 @@ export class PessoasPesquisaComponent implements OnInit {
   hiddenDialog() {
     this.display = false;
   }
+  limparTudo() {
+    this.cidade = '';
+    this.estado = '';
+    this.ativo = '';
+  }
+  cancelar() {
+    this.limparTudo();
+    this.hiddenDialog();
+  }
 
   pesquisar(pagina = 0) {
     this.filtro.pagina = pagina;
 
-    this.pessoaService.pesquisar(this.filtro, this.cidade, this.estado, this.ativo )
+    this.pessoaService.pesquisar(this.filtro, this.cidade, this.estado, this.ativo)
       .then(resultado => {
         this.totalRegistros = resultado.total;
         this.pessoas = resultado.pessoas;
       })
       .catch(erro => this.errorHandler.handle(erro));
+
   }
 
   aoMudarPagina(event: LazyLoadEvent) {

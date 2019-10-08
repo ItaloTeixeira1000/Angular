@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, AfterContentChecked } from '@angular/core';
 
 import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
 import { ToastyService } from 'ng2-toasty';
@@ -12,7 +12,7 @@ import { FormControl } from '@angular/forms';
   selector: 'app-lancamentos-pesquisa',
   templateUrl: './lancamentos-pesquisa.component.html',
   styleUrls: ['./lancamentos-pesquisa.component.css']
-}) 
+})
 export class LancamentosPesquisaComponent implements OnInit {
 
   totalRegistros = 0;
@@ -22,9 +22,9 @@ export class LancamentosPesquisaComponent implements OnInit {
   @Input() dataPagamento;
   lancamentos = [];
   display: boolean = false;
-  @ViewChild('tabela', {static: false}) grid; 
-  
- 
+  @ViewChild('tabela', { static: false }) grid;
+
+
 
   constructor(
     private lancamentoService: LancamentoService,
@@ -44,15 +44,23 @@ export class LancamentosPesquisaComponent implements OnInit {
 
   hiddenDialog() {
     this.display = false;
-    console.log("Pessoa: " + this.pessoa  + " dataPagamento: " + this.dataPagamento + " valor: " + this.valor );
+  }
+  limparTudo() {
+    this.pessoa = '';
+    this.valor = '';
+    this.dataPagamento = '';
+  }
+  cancelar() {
+    this.limparTudo();
+    this.hiddenDialog();
   }
 
 
   pesquisar(pagina = 0) {
     this.filtro.pagina = pagina;
-    
 
-    this.lancamentoService.pesquisar(this.filtro,this.pessoa,this.valor,this.dataPagamento)
+
+    this.lancamentoService.pesquisar(this.filtro, this.pessoa, this.valor, this.dataPagamento)
       .then(resultado => {
         this.totalRegistros = resultado.total;
         this.lancamentos = resultado.lancamentos;
