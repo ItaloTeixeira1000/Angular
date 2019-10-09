@@ -25,6 +25,7 @@ export class PessoaCadastroComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.pessoaService.atualizarToken();
     this.title.setTitle('Nova pessoa')
     const codigoPessoa = this.route.snapshot.params['codigo'];
     if(codigoPessoa) {

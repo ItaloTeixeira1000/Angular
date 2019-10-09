@@ -1,7 +1,7 @@
 <div class="container">
-
+  {{auth.jwtPayload | json}}
     <div class="ui-g">
-        <form #f="ngForm" (ngSubmit) = "login(email.value, senha.value)"  style="text-align: center; margin-left: auto; margin-right: auto; padding-left: auto; padding-right: auto">
+        <form #f="ngForm" autocomplete="off"   style="text-align: center; margin-left: auto; margin-right: auto; padding-left: auto; padding-right: auto">
             <div class="ui-g-12" >
                 <h1>Login</h1>
             </div>
@@ -15,7 +15,8 @@
             </div>
 
             <div class="ui-g-12">
-                    <button pButton type="submit" label="Login" style="width: 100%" [disabled]="f.invalid"> </button>
+                    <button pButton type="submit" label="Login" style="width: 100%" [disabled]="f.invalid"
+                    (click) = "login(email.value, senha.value); senha.value=''"> </button>
                 </div>
         </form>
     </div>

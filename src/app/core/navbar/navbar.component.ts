@@ -1,3 +1,5 @@
+import { AuthService } from './../../seguranca/auth.service';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
+  }
+  criarNovoAccessToken() {
+    this.auth.obterNovoAccessToken();
   }
 
 }

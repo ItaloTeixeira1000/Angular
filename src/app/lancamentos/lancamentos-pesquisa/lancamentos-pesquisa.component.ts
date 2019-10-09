@@ -7,6 +7,7 @@ import { ErrorHandlerService } from './../../core/error-handler.service';
 import { LancamentoService, LancamentoFiltro } from './../lancamento.service';
 import { Title } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
@@ -31,10 +32,12 @@ export class LancamentosPesquisaComponent implements OnInit {
     private errorHandler: ErrorHandlerService,
     private toasty: ToastyService,
     private confirmation: ConfirmationService,
-    private title: Title
+    private title: Title,
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
+    this.lancamentoService.atualizarToken()
     this.title.setTitle('Pesquisa de Lançamentos');
   }
 

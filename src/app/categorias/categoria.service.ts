@@ -1,28 +1,36 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../seguranca/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService implements OnInit {
 
-   categoriaUrl = 'http://localhost:8080/categorias';
+  categoriaUrl = 'http://localhost:8080/categorias';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService
+    ) { }
 
-  ngOnInit(){
+  // tslint:disable-next-line: contextual-lifecycle
+  ngOnInit() {
     this.listarTodas();
   }
 
-  listarTodas(): Promise<any>{
-    const headers = new HttpHeaders({
-      Authorization:
-        // tslint:disable-next-line: max-line-length
-        'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    });
+  listarTodas(): Promise<any> {
+    this.atualizarToken();
 
-    return this.http.get(`${this.categoriaUrl}`, {headers})
+
+    return this.http.get(`${this.categoriaUrl}`)
       .toPromise()
-      .then( response => JSON.parse(JSON.stringify(response)) );
+      .then(response => JSON.parse(JSON.stringify(response)));
+  }
+
+  atualizarToken() {
+    if (this.auth.isAccessTokenInvaldo) {
+      this.auth.obterNovoAccessToken();
+    }
   }
 }

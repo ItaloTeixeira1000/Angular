@@ -33,6 +33,7 @@ export class PessoasPesquisaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.pessoaService.atualizarToken();
     this.title.setTitle('Pesquisa de Pessoas');
   }
 

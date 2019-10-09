@@ -39,7 +39,8 @@ export class LancamentoCadastroComponent implements OnInit {
     private title: Title
   ) { }
 
-  ngOnInit() { 
+  ngOnInit() {
+    this.lancamentoService.atualizarToken();
     this.title.setTitle('Novo Lançamento');
     const codigoLancamento = this.route.snapshot.params['codigo'];
 
@@ -99,7 +100,7 @@ export class LancamentoCadastroComponent implements OnInit {
       .then(categorias => {
         this.categorias = categorias.map(c => ({ label: c.nome, value: c.codigo }));
       })
-      
+
       .catch(erro => this.errorHandler.handle(erro));
   }
 
@@ -117,11 +118,11 @@ export class LancamentoCadastroComponent implements OnInit {
       this.lancamento = new Lancamento();
     }.bind(this), 1);
 
-    
+
     this.router.navigate(['/lancamentos/novo']);
   }
 
   atualizarTituloEdicao() {
-    this,this.title.setTitle(`Edição de lançamento: ${this.lancamento.descricao}`);
+    this.title.setTitle(`Edição de lançamento: ${this.lancamento.descricao}`);
   }
 }

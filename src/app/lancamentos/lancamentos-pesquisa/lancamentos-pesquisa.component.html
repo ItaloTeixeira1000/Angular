@@ -96,10 +96,12 @@
 
             </td>
             <td style=" text-align: center;">
-              <a pButton pTooltip="Editar" tooltipPosition="top" style="height: 1.5em; color: white;"
+              <a pButton  pTooltip="Editar" tooltipPosition="top" style="height: 1.5em; color: white;"
                 [routerLink]="['/lancamentos', lancamentos.codigo]"><i class="pi pi-pencil"></i></a>
-              <a pButton pTooltip="Excluir" tooltipPosition="top" style="height: 1.5em; margin-left: 4px; color:white;"
-                (click)="confirmarExclusao(lancamentos)"><i class="pi pi-trash"></i></a>
+
+              <button pButton pTooltip="Excluir" tooltipPosition="top" style="height: 1.5em; margin-left: 4px; color:white;"
+                (click)="confirmarExclusao(lancamentos)"
+                [disabled]="!auth.temPermissao('ROLE_REMOVER_LANCAMENTO')"><i class="pi pi-trash"></i></button>
             </td>
 
           </tr>

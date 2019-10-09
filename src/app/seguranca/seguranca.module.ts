@@ -1,3 +1,4 @@
+import { AuthInterceptor } from './auth.interceptor';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SegurancaRoutingModule } from './seguranca-routing.module';
@@ -5,7 +6,7 @@ import { InputTextModule } from 'primeng/components/inputtext/inputtext';
 import { FormsModule } from '@angular/forms';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { ButtonModule } from 'primeng/components/button/button';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 
@@ -19,8 +20,13 @@ import { HttpClientModule } from '@angular/common/http';
     ButtonModule,
     HttpClientModule
   ],
-  exports: [
-    
+  exports: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+     }
   ]
 })
 export class SegurancaModule { }

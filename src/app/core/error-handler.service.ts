@@ -13,10 +13,13 @@ export class ErrorHandlerService {
     if (typeof errorResponse === 'string') {
       msg = errorResponse;
 
-    } else if (errorResponse instanceof HttpResponse
-        && erroJson.status >= 400 && erroJson.status <= 499) {
+    } else if (erroJson.status >= 400 && erroJson.status <= 499) {
       let errors;
       msg = 'Ocorreu um erro ao processar a sua solicitação';
+
+      if (erroJson.status === 403) {
+        msg = 'Você não tem permissão para executar esta ação'
+      }
 
       try {
         errors = JSON.parse(JSON.stringify(errorResponse));
@@ -24,7 +27,7 @@ export class ErrorHandlerService {
         msg = erroJson.error[0].mensagemUsuario;
       } catch (e) { }
 
-      console.error('Ocorreu um erro', errorResponse); 
+      console.error('Ocorreu um erro', errorResponse);
 
     } else {
       msg = 'Erro ao processar serviço remoto. Tente novamente.';
@@ -32,7 +35,7 @@ export class ErrorHandlerService {
     }
 
     this.toasty.error(msg);
-  
+
   }
 
 }

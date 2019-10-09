@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pessoa } from '../core/model';
+import { AuthService } from '../seguranca/auth.service';
 
 
 
@@ -15,16 +16,13 @@ export class PessoaService {
 
   pessoasUrl = 'http://localhost:8080/pessoas';
 
-  headers = new HttpHeaders({
-    Authorization:
-      // tslint:disable-next-line: max-line-length
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbkBhbGdhbW9uZXkuY29tIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIiwicHV0Il0sIm5vbWUiOiJBZG1pbmlzdHJhZG9yIiwiZXhwIjoxNTcwNTU0MjQyLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSIsIlJPTEVfQVRVQUxJWkFSX1BFU1NPQSJdLCJqdGkiOiI0YmVhODdiYy1iYzI2LTQxNDktOThiMC04MGYxNDZiMjQwMTciLCJjbGllbnRfaWQiOiJhbmd1bGFyIn0.X5j09T802A2BNiv277z7v0qWhR9tLYHIAub19NxFVqY',
-    'Content-Type': 'application/json'
-  });
-
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService
+  ) { }
 
   pesquisar(filtro: PessoaFiltro, cidade: string, estado: string, ativo: string): Promise<any> {
+    this.atualizarToken();
     let params = new HttpParams();
 
     params = params.set('page', filtro.pagina.toString());
@@ -45,7 +43,7 @@ export class PessoaService {
     if (ativo) {
       params = params.set('ativo', ativo);
     }
-    return this.http.get(`${this.pessoasUrl}`, { headers: this.headers, params })
+    return this.http.get(`${this.pessoasUrl}`, { params })
       .toPromise()
       .then(response => {
         const responseJson = JSON.parse(JSON.stringify(response));
@@ -61,42 +59,54 @@ export class PessoaService {
   }
 
   listarTodas(): Promise<any> {
-    return this.http.get(this.pessoasUrl, { headers: this.headers })
+    this.atualizarToken();
+    return this.http.get(this.pessoasUrl)
       .toPromise()
       .then(response => JSON.parse(JSON.stringify(response)).content);
   }
 
   excluir(codigo: number): Promise<void> {
-    return this.http.delete(`${this.pessoasUrl}/${codigo}`, { headers: this.headers })
+    this.atualizarToken();
+    return this.http.delete(`${this.pessoasUrl}/${codigo}`)
       .toPromise()
       .then(() => null);
   }
 
   mudarStatus(codigo: number, ativo: boolean): Promise<void> {
+    this.atualizarToken();
 
-    return this.http.put(`${this.pessoasUrl}/${codigo}/ativo`, ativo, { headers: this.headers })
+    return this.http.put(`${this.pessoasUrl}/${codigo}/ativo`, ativo)
       .toPromise()
       .then(() => null);
   }
 
   adicionar(pessoa: Pessoa): Promise<Pessoa> {
+    this.atualizarToken();
 
-    return this.http.post(this.pessoasUrl, JSON.stringify(pessoa), { headers: this.headers })
+    return this.http.post(this.pessoasUrl, JSON.stringify(pessoa))
       .toPromise()
       .then(response => JSON.parse(JSON.stringify(response)));
   }
 
   buscarPorCodigo(codigo: number): Promise<Pessoa> {
-    return this.http.get(`${this.pessoasUrl}/${codigo}`, { headers: this.headers })
+    this.atualizarToken();
+    return this.http.get(`${this.pessoasUrl}/${codigo}`)
       .toPromise()
       .then(response => JSON.parse(JSON.stringify(response)));
   }
 
   atualizar(pessoa: Pessoa): Promise<Pessoa> {
+    this.atualizarToken();
 
-    return this.http.put(`${this.pessoasUrl}/${pessoa.codigo}`, JSON.stringify(pessoa), { headers: this.headers })
+    return this.http.put(`${this.pessoasUrl}/${pessoa.codigo}`, JSON.stringify(pessoa))
       .toPromise()
       .then(pessoaSalva => JSON.parse(JSON.stringify(pessoaSalva)));
+  }
+
+  atualizarToken() {
+    if (this.auth.isAccessTokenInvaldo) {
+      this.auth.obterNovoAccessToken();
+    }
   }
 
 }
