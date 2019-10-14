@@ -11,6 +11,7 @@ import { registerLocaleData } from '@angular/common';
 import { ToastyModule } from 'ng2-toasty';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginFormComponent } from './seguranca/login-form/login-form.component';
+import { SegurancaModule } from './seguranca/seguranca.module';
 
 registerLocaleData(localeFr);
 
@@ -24,6 +25,7 @@ registerLocaleData(localeFr);
     HttpClientModule,
     TableModule,
     CoreModule,
+    SegurancaModule,
     AppRoutingModule,
     ToastyModule.forRoot()
   ],

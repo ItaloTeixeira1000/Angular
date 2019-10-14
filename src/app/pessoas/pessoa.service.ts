@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pessoa } from '../core/model';
 import { AuthService } from '../seguranca/auth.service';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -14,12 +15,14 @@ export class PessoaFiltro {
 @Injectable()
 export class PessoaService {
 
-  pessoasUrl = 'http://localhost:8080/pessoas';
+  pessoasUrl : string;
 
   constructor(
     private http: HttpClient,
     private auth: AuthService
-  ) { }
+  ) { 
+    this.pessoasUrl = `${environment.apiUrl}/pessoas`;
+  }
 
   pesquisar(filtro: PessoaFiltro, cidade: string, estado: string, ativo: string): Promise<any> {
     this.atualizarToken();
@@ -53,9 +56,8 @@ export class PessoaService {
           pessoas,
           total: responseJson.totalElements
         };
-
         return resultado;
-      })
+      });
   }
 
   listarTodas(): Promise<any> {

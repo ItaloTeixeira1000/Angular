@@ -22,39 +22,38 @@ export class PessoaCadastroComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private title: Title
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.pessoaService.atualizarToken();
     this.title.setTitle('Nova pessoa')
     const codigoPessoa = this.route.snapshot.params['codigo'];
-    if(codigoPessoa) {
+    if (codigoPessoa) {
       this.carregarPessoa(codigoPessoa);
     }
   }
 
-  carregarPessoa(codigo: number){
+  carregarPessoa(codigo: number) {
     this.pessoaService.buscarPorCodigo(codigo)
       .then(pessoa => {
         this.pessoas = pessoa;
         this.atualizarTituloEdicao();
-      })
-
+      });
   }
 
- get editando() {
-  return Boolean(this.pessoas.codigo);
- }
-
- salvar(form: FormControl) {
-  if(this.editando) {
-    this.atualizarPessoa(form);
-  } else {
-    this.adicionarPessoa(form);
+  get editando() {
+    return Boolean(this.pessoas.codigo);
   }
- }
 
-  adicionarPessoa(form: FormControl){
+  salvar(form: FormControl) {
+    if (this.editando) {
+      this.atualizarPessoa(form);
+    } else {
+      this.adicionarPessoa(form);
+    }
+  }
+
+  adicionarPessoa(form: FormControl) {
     this.pessoaService.adicionar(this.pessoas)
       .then(() => {
         this.toasty.success('Pessoa adicinada com sucesso');
@@ -62,18 +61,18 @@ export class PessoaCadastroComponent implements OnInit {
         form.reset();
         this.pessoas = new Pessoa();
       })
-      .catch(erro => this.errorHandler.handle(erro) );
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
   atualizarPessoa(form: FormControl) {
     this.pessoaService.atualizar(this.pessoas)
-    .then(pessoa => {
-      this.pessoas = pessoa;
+      .then(pessoa => {
+        this.pessoas = pessoa;
 
-      this.toasty.success("Pessoa alterada com sucesso");
-      this.atualizarTituloEdicao();
-    })
-    .catch(erro => this.errorHandler.handle(erro));
+        this.toasty.success("Pessoa alterada com sucesso");
+        this.atualizarTituloEdicao();
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
 
   novo(form: FormControl) {
@@ -87,7 +86,7 @@ export class PessoaCadastroComponent implements OnInit {
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Edição de Pessoa: ${this.pessoas.nome}`)
+    this.title.setTitle(`Edição de Pessoa: ${this.pessoas.nome}`);
   }
 
 }

@@ -19,7 +19,7 @@
         <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Mais filtros"></button>
       </div>
 
-      <p-dialog [(visible)]="display" [responsive]="true">
+      <p-dialog [(visible)]="display" [responsive]="true" [draggable]="false" [modal]="true">
         <p-header>
           Filtro
         </p-header>

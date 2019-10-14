@@ -5,6 +5,7 @@ import * as moment from 'moment';
 
 import { Lancamento } from '../core/model';
 import { AuthService } from '../seguranca/auth.service';
+import { environment } from 'src/environments/environment';
 
 export class LancamentoFiltro {
   descricao: string;
@@ -17,12 +18,14 @@ export class LancamentoFiltro {
 @Injectable()
 export class LancamentoService {
 
-  lancamentosUrl = 'http://localhost:8080/lancamentos';
+  lancamentosUrl : string;
 
   constructor(
     private http: HttpClient,
     private auth: AuthService
-  ) { }
+  ) { 
+    this.lancamentosUrl = `${environment.apiUrl}/lancamentos`;
+  }
 
   pesquisar(filtro: LancamentoFiltro, pessoa: string, valor: number, dataPagamento: Date): Promise<any> {
     if (this.auth.isAccessTokenInvaldo) {
@@ -30,7 +33,7 @@ export class LancamentoService {
         if (filtro.descricao == null) {
           filtro.descricao = '';
         }
-        if(pessoa == null) {
+        if (pessoa == null) {
           pessoa = '';
         }
 
@@ -134,7 +137,6 @@ export class LancamentoService {
     for (const lancamento of lancamentos) {
       lancamento.dataVencimento = moment(lancamento.dataVencimento,
         'YYYY-MM-DD').toDate();
-
       if (lancamento.dataPagamento) {
         lancamento.dataPagamento = moment(lancamento.dataPagamento,
           'YYYY-MM-DD').toDate();

@@ -1,18 +1,21 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../seguranca/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService implements OnInit {
 
-  categoriaUrl = 'http://localhost:8080/categorias';
+  categoriaUrl : string;
 
   constructor(
     private http: HttpClient,
     private auth: AuthService
-    ) { }
+    ) { 
+      this.categoriaUrl = `${environment.apiUrl}/categorias`
+    }
 
   // tslint:disable-next-line: contextual-lifecycle
   ngOnInit() {
